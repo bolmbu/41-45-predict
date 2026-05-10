@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}User Page | Thai Handwriting Recognition{% endblock %}
+{% block content %}
+  <section class="hero-card">
+    <h2 class="section-title">User Page</h2>
+    <p class="card-subtitle">เขียนเลขไทยบน canvas แล้วกด Predict เพื่อทำนายผล รองรับเลข ๔๑–๔๕</p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h3 class="card-title">เขียนเลขไทย</h3>
+      <div class="hint">รองรับคลาส: <strong>{% for label in labels %}{{ label }}{% if not loop.last %}, {% endif %}{% endfor %}</strong></div>
+
+      <div class="canvas-shell">
+        <canvas id="drawCanvas" width="360" height="360"></canvas>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="predictDigit()">Predict</button>
+        <button class="btn btn-secondary" onclick="clearCanvas()">Clear</button>
+      </div>
+
+      <div id="status" class="status-line">พร้อมใช้งาน</div>
+    </section>
+
+    <section class="card">
+      <h3 class="card-title">ผลลัพธ์</h3>
+      <div class="result-box">
+        <div class="result-label">Prediction</div>
+        <div class="prediction" id="prediction">-</div>
+        <div id="confidence" class="confidence-pill">Confidence: -</div>
+        <div style="margin-top:18px; font-weight:800;">Top confidence</div>
+        <div class="top-list" id="topList"></div>
+      </div>
+
+      {% if not has_model %}
+        <div class="hint" style="margin-top:16px;">
+          ยังไม่มีโมเดล ให้เก็บ dataset ที่หน้า <strong>Collect Dataset</strong> แล้วรัน <strong>python train_model.py</strong> ก่อน
+        </div>
+      {% endif %}
+    </section>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

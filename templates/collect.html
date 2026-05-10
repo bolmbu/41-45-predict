@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Collect Dataset{% endblock %}
+{% block content %}
+  <section class="hero-card">
+    <h2 class="section-title">Collect Dataset</h2>
+    <p class="card-subtitle">ส่วนเก็บ Dataset ถูกย้ายไปอยู่ในหน้า Admin Dashboard แล้ว</p>
+  </section>
+
+  <section class="card">
+    <div class="hint">กรุณาไปที่ <strong>Admin Login</strong> แล้วเข้าสู่ <strong>Admin Dashboard</strong> เพื่อเก็บ Dataset</div>
+    <div class="toolbar" style="margin-top:16px;">
+      <a class="btn btn-primary" href="{{ url_for('admin_login') }}">ไปหน้า Admin Login</a>
+    </div>
+  </section>
+{% endblock %}

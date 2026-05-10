@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Thai Handwriting Recognition{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand-wrap">
+        <div>
+          <h1 class="brand-title">Thai Handwriting Recognition: ๔๑–๔๕</h1>
+          <p class="brand-subtitle">ระบบทำนายลายมือเลขไทย พร้อมหน้าเก็บ Dataset และ Admin Upload Model</p>
+        </div>
+        <div>
+          <div class="badge">{% if admin_logged_in %}Admin: {{ session.get('admin_user', 'admin') }}{% else %}Guest Mode{% endif %}</div>
+        </div>
+      </div>
+      <nav class="nav-row">
+        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{{ url_for('index') }}">User Page</a>
+        {% if admin_logged_in %}
+          <a class="nav-link {% if request.path.startswith('/admin/dashboard') %}active{% endif %}" href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+          <a class="nav-link" href="{{ url_for('admin_logout') }}">Logout</a>
+        {% else %}
+          <a class="nav-link {% if request.path.startswith('/admin') %}active{% endif %}" href="{{ url_for('admin_login') }}">Admin Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container layout">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

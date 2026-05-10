@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+  <section class="hero-card">
+    <div class="dashboard-top">
+      <div>
+        <h2 class="section-title">Admin Dashboard</h2>
+        <p class="card-subtitle">จัดการโมเดลและเก็บ Dataset ได้ในหน้าเดียว</p>
+      </div>
+      <div class="dashboard-badge">Logged in as admin</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h3 class="card-title">Collect Dataset</h3>
+      <div class="hint">แนะนำให้เก็บอย่างน้อย <strong>30–50 รูปต่อเลข</strong> และควรมีหลายลายมือในกลุ่ม</div>
+
+      <div class="select-wrap" style="margin-top:16px;">
+        <label class="form-label">เลือก Label</label>
+        <select id="labelSelect">
+          {% for label in labels %}
+            <option value="{{ label }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="canvas-shell">
+        <canvas id="drawCanvas" width="360" height="360"></canvas>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="saveSample()">Save Sample</button>
+        <button class="btn btn-secondary" onclick="clearCanvas()">Clear</button>
+        <button class="btn btn-danger" onclick="deleteLast()">Delete Last</button>
+      </div>
+      <div id="status" class="status-line">พร้อมบันทึกข้อมูล</div>
+    </section>
+
+    <section class="card">
+      <h3 class="card-title">Model Management</h3>
+      {% if has_model %}
+        <div class="hint">มีโมเดลใช้งานแล้ว: <strong>models/thai_digit_model.keras</strong></div>
+      {% else %}
+        <div class="hint">ยังไม่มีโมเดล ให้เก็บ dataset แล้ว train ก่อน หรือ upload ไฟล์ <strong>.keras</strong> / <strong>.h5</strong></div>
+      {% endif %}
+
+      <div style="margin-top:18px;">
+        <label class="form-label">เลือกไฟล์โมเดล</label>
+        <input class="input" id="modelFile" type="file" accept=".keras,.h5">
+      </div>
+
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="uploadModel()">Upload Model</button>
+        <a class="btn btn-dark" href="{{ url_for('admin_logout') }}">Logout</a>
+      </div>
+      <div id="uploadStatus" class="status-line">ยังไม่ได้อัปโหลด</div>
+
+      <div class="hint" style="margin-top:18px;">
+        หลังเก็บครบแล้ว ให้หยุด server ด้วย <strong>Ctrl + C</strong> แล้วรันคำสั่งนี้
+        <pre>python train_model.py</pre>
+      </div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:24px;">
+    <h3 class="card-title">Dataset Status</h3>
+    <div class="counts-grid">
+      {% for label in labels %}
+        <div class="count-box">
+          <div class="num">{{ label }}</div>
+          <div><strong id="count-{{ label }}">{{ counts[label] }}</strong> รูป</div>
+          <div class="meta">พร้อมสำหรับ train</div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

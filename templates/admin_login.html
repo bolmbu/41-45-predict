@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+  <div class="login-shell">
+    <section class="login-card">
+      <h2 class="section-title" style="font-size:32px; margin-bottom:10px;">Admin Login</h2>
+      <p class="card-subtitle">เข้าสู่ระบบเพื่อจัดการโมเดลและใช้งานหน้า Admin</p>
+
+      <form method="post" class="form-grid">
+        <div>
+          <label class="form-label">Username</label>
+          <input class="input" type="text" name="username" placeholder="กรอก username" required>
+        </div>
+        <div>
+          <label class="form-label">Password</label>
+          <input class="input" type="password" name="password" placeholder="กรอก password" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
+      </form>
+
+      <div class="login-info">
+        <div><strong>Demo Admin Account</strong></div>
+        <div class="login-note">Username: <strong>admin</strong> | Password: <strong>1234</strong></div>
+      </div>
+    </section>
+  </div>
+{% endblock %}
